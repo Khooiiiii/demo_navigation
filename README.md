@@ -1,3 +1,44 @@
+# Demo React Navigation App
+
+## Mục tiêu
+
+Ứng dụng này giúp bạn làm chủ hệ thống điều hướng trong React Native với React Navigation, bao gồm:
+
+- Stack, Tab, Drawer Navigator
+- Truyền dữ liệu giữa các màn hình
+- Nested navigator (lồng navigator)
+- Giao diện đẹp, hiện đại, sử dụng react-native-vector-icons
+
+## Nội dung chính
+
+1. [Giới thiệu React Navigation](#gioi-thieu)
+2. [Cấu trúc project](#cau-truc)
+3. [Cài đặt & Khởi chạy](#cai-dat)
+4. [Giải thích hệ thống điều hướng](#giai-thich)
+5. [Truyền dữ liệu giữa màn hình](#truyen-du-lieu)
+6. [Ảnh màn hình demo](#anh-demo)
+
+---
+
+## 1. Giới thiệu React Navigation <a name="gioi-thieu"></a>
+
+React Navigation là thư viện điều hướng phổ biến nhất cho React Native, hỗ trợ nhiều loại navigator: Stack, Tab, Drawer, và cho phép lồng ghép linh hoạt.
+
+## 2. Cấu trúc project <a name="cau-truc"></a>
+
+```
+DemoNavigation/
+  src/
+    navigation/      # Chứa các navigator
+    screens/         # Chứa các màn hình: Home, Detail, Settings
+    components/      # Các component dùng chung
+  assets/            # Hình ảnh, icon
+  App.tsx            # Entry point
+  ...
+```
+
+---
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
@@ -95,4 +136,112 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
 # demo_navigation
+
+## 4. Giải thích hệ thống điều hướng <a name="giai-thich"></a>
+
+Ứng dụng sử dụng:
+
+- **Drawer Navigator** làm navigator gốc (menu trượt cạnh trái).
+- **Tab Navigator** nằm trong Drawer, mỗi tab là một Stack Navigator.
+- **Stack Navigator** cho từng tab (HomeStack: Home, Detail; SettingsStack: Settings).
+
+### Nested Navigator
+
+Các navigator có thể lồng nhau để tổ chức luồng điều hướng phức tạp, ví dụ: Drawer > Tab > Stack.
+
+### Truyền dữ liệu giữa màn hình
+
+- Sử dụng navigation params:
+  - Từ Home sang Detail: `navigation.navigate('Detail', { message: 'Xin chào từ Home!' })`
+  - Ở Detail nhận qua: `const { message } = route.params;`
+
+---
+
+## 5. Truyền function (callback) giữa các màn hình <a name="truyen-du-lieu"></a>
+
+### ⚠️ **Không nên truyền function qua navigation params**
+
+- Navigation params sẽ được serialize (chuyển thành JSON), function không thể serialize.
+- Nếu truyền function sẽ có warning: `Non-serializable values were found in the navigation state`.
+- Có thể gây lỗi khi dùng deep linking, state persistence, debug...
+
+### ✅ **Cách đúng: Dùng React Context**
+
+- Đặt function vào context, các màn hình có thể truy cập mà không cần truyền qua navigation params.
+
+#### Ví dụ thực tế trong project này:
+
+1. **Tạo context:**
+
+```tsx
+// src/components/FavoriteContext.tsx
+import React, { createContext, useContext } from 'react';
+import { Alert } from 'react-native';
+
+type FavoriteContextType = {
+  onFavorite: (item: string) => void;
+};
+
+const FavoriteContext = createContext<FavoriteContextType | undefined>(
+  undefined,
+);
+
+export const useFavorite = () => {
+  const ctx = useContext(FavoriteContext);
+  if (!ctx) throw new Error('useFavorite must be used within FavoriteProvider');
+  return ctx;
+};
+
+export const FavoriteProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const onFavorite = (item: string) => {
+    Alert.alert('Yêu thích', `Đã yêu thích: ${item}`);
+  };
+  return (
+    <FavoriteContext.Provider value={{ onFavorite }}>
+      {children}
+    </FavoriteContext.Provider>
+  );
+};
+```
+
+2. **Bọc App trong FavoriteProvider:**
+
+```tsx
+// App.tsx
+import { FavoriteProvider } from './src/components/FavoriteContext';
+...
+function App() {
+  return (
+    <FavoriteProvider>
+      <NavigationContainer>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <RootNavigator />
+      </NavigationContainer>
+    </FavoriteProvider>
+  );
+}
+```
+
+3. **Dùng hàm trong màn hình Detail:**
+
+```tsx
+// src/screens/DetailScreen.tsx
+import { useFavorite } from '../components/FavoriteContext';
+...
+const { onFavorite } = useFavorite();
+...
+<TouchableOpacity onPress={() => onFavorite(message)}>
+  <Text>Yêu thích</Text>
+</TouchableOpacity>
+```
+
+**Ưu điểm:**
+
+- Không warning, an toàn, dễ mở rộng.
+- Đúng chuẩn React Native/React Navigation.
+
+---
