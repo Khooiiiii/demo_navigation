@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Feather from 'react-native-vector-icons/Feather';
 
 const ProfileScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
-        <Icon name="user" size={64} color="#fff" style={styles.avatarIcon} />
+        <Feather name="user" size={64} color="#fff" style={styles.avatarIcon} />
       </View>
       <Text style={styles.name}>Nguyễn Văn A</Text>
       <Text style={styles.email}>nguyenvana@example.com</Text>

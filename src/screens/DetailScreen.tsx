@@ -1,16 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Feather from 'react-native-vector-icons/Feather';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { HomeStackParamList } from './HomeScreen';
+import { useCount } from '../components/CountContext';
 
 type Props = NativeStackScreenProps<HomeStackParamList, 'Detail'>;
 
 const DetailScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { message, id, time } = route.params;
+  const { message, id, time, count: countParam } = route.params;
+  const { count, increment, decrement } = useCount();
+
   return (
     <View style={styles.container}>
-      <Icon name="info" size={64} color="#43A047" style={styles.icon} />
+      <Feather name="info" size={64} color="#43A047" style={styles.icon} />
       <Text style={styles.title}>Detail Screen</Text>
       <Text style={styles.label}>Dữ liệu nhận được từ Home:</Text>
       <View style={styles.paramBox}>
@@ -23,12 +26,30 @@ const DetailScreen: React.FC<Props> = ({ route, navigation }) => {
         <Text style={styles.param}>
           <Text style={styles.paramKey}>time:</Text> {time}
         </Text>
+        <Text style={styles.param}>
+          <Text style={styles.paramKey}>count:</Text> {countParam}
+        </Text>
       </View>
+      <View style={{ justifyContent: 'space-between' }}>
+        {/* Count display and controls */}
+        <View style={styles.countContainer}>
+          <Text style={styles.countLabel}>Count Context: {count}</Text>
+          <View style={styles.countButtons}>
+            <TouchableOpacity style={styles.countButton} onPress={decrement}>
+              <Text style={styles.countButtonText}>-</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.countButton} onPress={increment}>
+              <Text style={styles.countButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.goBack()}
       >
-        <Icon
+        <Feather
           name="arrow-left-circle"
           size={20}
           color="#fff"
@@ -91,8 +112,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: 24,
     elevation: 2,
+    marginTop: 24,
   },
   buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  countContainer: {
+    marginTop: 24,
+  },
+  countLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1976D2',
+    marginBottom: 12,
+  },
+  countButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  countButton: {
+    backgroundColor: '#1976D2',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 24,
+    elevation: 2,
+  },
+  countButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',

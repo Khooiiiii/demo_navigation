@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Feather from 'react-native-vector-icons/Feather';
 
 const SettingsScreen: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Icon name="settings" size={64} color="#F9A825" style={styles.icon} />
+      <Feather name="settings" size={64} color="#F9A825" style={styles.icon} />
       <Text style={styles.title}>Settings</Text>
       <Text style={styles.subtitle}>Tuỳ chỉnh ứng dụng của bạn tại đây.</Text>
     </View>

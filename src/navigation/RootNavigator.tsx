@@ -1,7 +1,7 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import TabNavigator from './TabNavigator';
-import Icon from 'react-native-vector-icons/Feather';
+import Feather from 'react-native-vector-icons/Feather';
 import ProfileScreen from '../screens/ProfileScreen';
 import AboutScreen from '../screens/AboutScreen';
 
@@ -24,7 +24,7 @@ const RootNavigator = () => {
         options={{
           title: 'Trang chính',
           drawerIcon: ({ color, size }) => (
-            <Icon name="grid" color={color} size={size} />
+            <Feather name="grid" color={color} size={size} />
           ),
         }}
       />
@@ -34,7 +34,7 @@ const RootNavigator = () => {
         options={{
           title: 'Profile',
           drawerIcon: ({ color, size }) => (
-            <Icon name="user" color={color} size={size} />
+            <Feather name="user" color={color} size={size} />
           ),
         }}
       />
@@ -44,7 +44,7 @@ const RootNavigator = () => {
         options={{
           title: 'About',
           drawerIcon: ({ color, size }) => (
-            <Icon name="info" color={color} size={size} />
+            <Feather name="info" color={color} size={size} />
           ),
         }}
       />

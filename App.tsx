@@ -10,15 +10,18 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from './src/navigation/RootNavigator';
 import { FavoriteProvider } from './src/components/FavoriteContext';
+import { CountProvider } from './src/components/CountContext';
 
 function App() {
   return (
-    <FavoriteProvider>
-      <NavigationContainer>
-        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-        <RootNavigator />
-      </NavigationContainer>
-    </FavoriteProvider>
+    <CountProvider>
+      <FavoriteProvider>
+        <NavigationContainer>
+          <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+          <RootNavigator />
+        </NavigationContainer>
+      </FavoriteProvider>
+    </CountProvider>
   );
 }
 

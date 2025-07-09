@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Feather';
+import Feather from 'react-native-vector-icons/Feather';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen, { HomeStackParamList } from '../screens/HomeScreen';
 import DetailScreen from '../screens/DetailScreen';
@@ -46,7 +46,7 @@ function TabNavigator() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size} />
+            <Feather name="home" color={color} size={size} />
           ),
         }}
       />
@@ -56,7 +56,7 @@ function TabNavigator() {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="settings" color={color} size={size} />
+            <Feather name="settings" color={color} size={size} />
           ),
         }}
       />

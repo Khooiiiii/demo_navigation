@@ -6,12 +6,12 @@ import {
   Linking,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Feather from 'react-native-vector-icons/Feather';
 
 const AboutScreen: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Icon name="info" size={64} color="#43A047" style={styles.icon} />
+      <Feather name="info" size={64} color="#43A047" style={styles.icon} />
       <Text style={styles.title}>DemoNavigation App</Text>
       <Text style={styles.version}>Version 1.0.0</Text>
       <Text style={styles.desc}>
@@ -22,7 +22,7 @@ const AboutScreen: React.FC = () => {
         onPress={() => Linking.openURL('https://reactnavigation.org/')}
         style={styles.linkBtn}
       >
-        <Icon
+        <Feather
           name="external-link"
           size={18}
           color="#1976D2"
