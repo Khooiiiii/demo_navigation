@@ -5,6 +5,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen, { HomeStackParamList } from '../screens/HomeScreen';
 import DetailScreen from '../screens/DetailScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import DemoPushScreen from '../screens/DemoPushScreen';
+import DemoNavigateScreen from '../screens/DemoNavigateScreen';
+import DemoPopScreen from '../screens/DemoPopScreen';
+import DemoGoBackScreen from '../screens/DemoGoBackScreen';
 
 // Home Stack
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
@@ -23,6 +27,13 @@ function SettingsStackNavigator() {
   return (
     <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
       <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+      <SettingsStack.Screen name="DemoPush" component={DemoPushScreen} />
+      <SettingsStack.Screen
+        name="DemoNavigate"
+        component={DemoNavigateScreen}
+      />
+      <SettingsStack.Screen name="DemoPop" component={DemoPopScreen} />
+      <SettingsStack.Screen name="DemoGoBack" component={DemoGoBackScreen} />
     </SettingsStack.Navigator>
   );
 }
